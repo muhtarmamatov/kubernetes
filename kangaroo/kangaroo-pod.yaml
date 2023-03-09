@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kangaroo-backend
+spec:
+  containers:
+  - name: kangaroo-backend
+    image: kangaroo-backend:1.14.2
+    ports:
+    - containerPort: 80

@@ -1,4 +1,21 @@
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongo-pv
+spec:
+  capacity:
+    storage: 256Mi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /mnt/data/mongo-pv
+  claimRef:
+    name: mongo-pvc
+  
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mongo-pvc

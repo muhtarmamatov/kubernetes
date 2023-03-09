@@ -1,0 +1,32 @@
+# Standard Kubernetes fields for all resources: apiVersion, kind, metadata, spec
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kangaroo-backend-deployment
+  labels:
+    app: kangaroo-backend
+
+# The `spec` is where the Deployment-specific stuff is defined
+spec:
+  replicas: 3
+
+  # The `selector` defines which pods will get managed by this deployment.
+  # We tell Kubernetes to replicate the pod matching the label `app: kangaroo`
+  selector:
+    matchLabels:
+      app: kangaroo
+      role: backend
+
+  # The `template` defines a pod which will get managed by this deployment.
+  template:
+    metadata:
+      # Make sure the pod's labels match the labels the deployment is selecting (see above)
+      labels:
+        app: kangaroo
+        role: backend
+    # The Pod has its own spec, inside the spec of the Deployment. 
+    # This spec defines what containers the Pod should run.
+    spec:
+      containers:
+      - name: kangaroo-backend
+        image: kangaroo-backend:1.14.2

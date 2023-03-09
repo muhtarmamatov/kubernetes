@@ -1,34 +1,38 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: knote
+  name: helloweb
+  labels:
+    app: hello
 spec:
   replicas: 4
   selector:
     matchLabels:
-      app: knote
+      app: hello
+      tier: web
   template:
     metadata:
       labels:
-        app: knote
+        app: hello
+        tier: web
     spec:
       containers:
-        - name: app
-          image: muktarbek/knote-java:v0.1
+        - name: hello-app
+          image: us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0
           ports:
             - containerPort: 8080
-          env:
-            - name: MONGO_URL
-              value: mongodb://mongo:27017/dev
-          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 200m
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: knote
+  name: hello
 spec:
   selector:
-    app: knote
+    app: hello
   ports:
     - port: 80
       targetPort: 8080
